@@ -1,0 +1,41 @@
+# train settings
+cuda_ids: [0]
+epochs: 1000
+batch_size: 64
+
+# optimization settings
+OPT:
+  lr: 1.0e-3
+  end_lr: 1.0e-8
+  
+  # lr iteration
+  scheduler_type: CosineAnnealingLR
+  optimizer: adamW
+
+AUG:
+  patch_size: 128
+
+# traning database
+DATASET:
+  train_info_path: your train data
+  valid_info_path: your test data
+# save settings
+SAVE:
+  save_basedir:　your save dir
+  save_title: time # time / test
+
+# model settings
+MODEL:
+  name: Enhancer
+  img_channel: 1
+  width: 32
+  enc_blk_nums: [2, 2, 2]
+  mid_blk_num: 2
+  dec_blk_nums: [2, 2, 2]
+  dw_expand: 1
+  ffn_expand: 2
+
+
+# loss settings
+LOSS:
+

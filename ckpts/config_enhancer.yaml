@@ -1,0 +1,35 @@
+AUG:
+  patch_size: 128
+DATASET:
+  train_info_path: your train data
+  valid_info_path: your test data
+LOSS: null
+MODEL:
+  dec_blk_nums:
+  - 2
+  - 2
+  - 2
+  dw_expand: 1
+  enc_blk_nums:
+  - 2
+  - 2
+  - 2
+  ffn_expand: 2
+  img_channel: 1
+  mid_blk_num: 2
+  name: Enhancer
+  width: 32
+OPT:
+  end_lr: 1.0e-08
+  lr: 0.001
+  optimizer: adamW
+  scheduler_type: CosineAnnealingLR
+SAVE:
+  save_basedir: your save dir
+  save_title: time
+batch_size: 64
+cuda_ids:
+- 0
+- 1
+epochs: 1000
+yaml: config_enhancer
