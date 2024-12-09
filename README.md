@@ -4,7 +4,7 @@
  * @Date: 2024-12-09 15:39:59
  * @version: 0.0.1
  * @LastEditors: Xiongjun Guan
- * @LastEditTime: 2024-12-09 20:25:38
+ * @LastEditTime: 2024-12-09 20:38:54
  * 
  * Copyright (C) 2024 by Xiongjun Guan, Tsinghua University. All rights reserved.
 -->
@@ -82,6 +82,11 @@ Below are two examples before and after fingerprint enhancement.
 </p>
 <br>
 
+- example 3
+<p align="center">
+    <img src="./images/ex3.png"/ width=90%> <br />
+</p>
+<br>
 
 ## License
 This project is released under the MIT license. Please see the LICENSE file for more information.
