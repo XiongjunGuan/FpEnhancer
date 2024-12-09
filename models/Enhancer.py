@@ -16,6 +16,69 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+from .codebook import Codebook_clean
+
+
+class VQEnhancer(nn.Module):
+
+    def __init__(
+        self,
+        img_channel=1,
+        width=16,
+        mid_blk_num=1,
+        enc_blk_nums=[],
+        dec_blk_nums=[],
+        dw_expand=1,
+        ffn_expand=2,
+        num_codebook_vectors=1024,
+    ):
+        super().__init__()
+
+        self.encoder = EnhancerEncoder(img_channel=img_channel,
+                                       width=width,
+                                       enc_blk_nums=enc_blk_nums,
+                                       dw_expand=dw_expand,
+                                       ffn_expand=ffn_expand)
+        latent_dim = width
+        for i in enc_blk_nums:
+            latent_dim *= 2
+        self.quant_conv = nn.Conv2d(latent_dim, latent_dim, 1)
+        self.codebook = Codebook_clean(
+            num_codebook_vectors=num_codebook_vectors,
+            latent_dim=latent_dim,
+        )
+        self.post_quant_conv = nn.Conv2d(latent_dim, latent_dim, 1)
+        self.decoder = EnhancerDecoder(img_channel=img_channel,
+                                       width=width,
+                                       middle_blk_num=mid_blk_num,
+                                       enc_blk_nums=enc_blk_nums,
+                                       dec_blk_nums=dec_blk_nums,
+                                       dw_expand=dw_expand,
+                                       ffn_expand=ffn_expand)
+
+        self.padder_size = 2**len(enc_blk_nums)
+
+    def forward(self, inp):
+        B, C, H, W = inp.shape
+        inp = self.check_image_size(inp)
+
+        mid = self.encoder(inp)
+        mid = self.quant_conv(mid)
+        codebook_mapping, z_q, z = self.codebook(mid)
+        mid = self.post_quant_conv(codebook_mapping)
+        x = self.decoder(mid)
+
+        return x[:, :, :H, :W], z_q, z
+
+    def check_image_size(self, x):
+        _, _, h, w = x.size()
+        mod_pad_h = (self.padder_size -
+                     h % self.padder_size) % self.padder_size
+        mod_pad_w = (self.padder_size -
+                     w % self.padder_size) % self.padder_size
+        x = F.pad(x, (0, mod_pad_w, 0, mod_pad_h))
+        return x
+
 
 class Enhancer(nn.Module):
 
@@ -204,105 +267,6 @@ class BaselineBlock(nn.Module):
         x = self.dropout2(x)
 
         return y + x * self.gamma
-
-
-class BaselineEnhancer(nn.Module):
-
-    def __init__(self,
-                 img_channel=1,
-                 width=16,
-                 middle_blk_num=1,
-                 enc_blk_nums=[],
-                 dec_blk_nums=[],
-                 dw_expand=1,
-                 ffn_expand=2):
-        super().__init__()
-
-        self.intro = nn.Conv2d(in_channels=img_channel,
-                               out_channels=width,
-                               kernel_size=3,
-                               padding=1,
-                               stride=1,
-                               groups=1,
-                               bias=True)
-        self.ending = nn.Sequential(
-            nn.Conv2d(in_channels=width,
-                      out_channels=img_channel,
-                      kernel_size=3,
-                      padding=1,
-                      stride=1,
-                      groups=1,
-                      bias=True), nn.Sigmoid())
-
-        self.encoders = nn.ModuleList()
-        self.middle_blks = nn.ModuleList()
-        self.downs = nn.ModuleList()
-
-        chan = width
-        for num in enc_blk_nums:
-            self.encoders.append(
-                nn.Sequential(*[
-                    BaselineBlock(chan, dw_expand, ffn_expand)
-                    for _ in range(num)
-                ]))
-            self.downs.append(nn.Conv2d(chan, 2 * chan, 2, 2))
-            chan = chan * 2
-
-        self.middle_blks = \
-            nn.Sequential(
-                *[BaselineBlock(chan, dw_expand, ffn_expand) for _ in range(middle_blk_num)]
-            )
-
-        for num in dec_blk_nums:
-            self.ups.append(
-                nn.Sequential(nn.Conv2d(chan, chan * 2, 1, bias=False),
-                              nn.PixelShuffle(2)))
-            chan = chan // 2
-            self.decoders.append(
-                nn.Sequential(*[
-                    BaselineBlock(chan, dw_expand, ffn_expand)
-                    for _ in range(num)
-                ]))
-
-        self.padder_size = 2**len(self.encoders)
-
-    def forward(self, inp):
-        B, C, H, W = inp.shape
-        inp = self.check_image_size(inp)
-
-        x = self.intro(inp)
-
-        encs = []
-
-        for encoder, down in zip(self.encoders, self.downs):
-            x = encoder(x)
-            encs.append(x)
-            x = down(x)
-
-        x = self.middle_blks(x)
-
-        # for decoder, up, enc_skip in zip(self.decoders, self.ups, encs[::-1]):
-        #     x = up(x)
-        #     x = x + enc_skip
-        #     x = decoder(x)
-
-        for decoder, up in zip(self.decoders, self.ups):
-            x = up(x)
-            x = decoder(x)
-
-        x = self.ending(x)
-        # x = x + inp
-
-        return x[:, :, :H, :W]
-
-    def check_image_size(self, x):
-        _, _, h, w = x.size()
-        mod_pad_h = (self.padder_size -
-                     h % self.padder_size) % self.padder_size
-        mod_pad_w = (self.padder_size -
-                     w % self.padder_size) % self.padder_size
-        x = F.pad(x, (0, mod_pad_w, 0, mod_pad_h))
-        return x
 
 
 class EnhancerDecoder(nn.Module):

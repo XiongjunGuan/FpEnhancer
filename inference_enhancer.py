@@ -4,7 +4,7 @@ Author: Xiongjun Guan
 Date: 2023-12-04 15:28:01
 version: 0.0.1
 LastEditors: Xiongjun Guan
-LastEditTime: 2024-12-09 15:33:46
+LastEditTime: 2024-12-09 19:55:14
 
 Copyright (C) 2023 by Xiongjun Guan, Tsinghua University. All rights reserved.
 '''
@@ -95,7 +95,7 @@ if __name__ == "__main__":
     set_seed(seed=7)
 
     # ------------ settings ------------ #
-    model_dir = "/disk3/guanxiongjun/backup_clean/FpEnhancer/ckpts/"
+    model_dir = "/disk3/guanxiongjun/backup_clean/FpEnhancer/ckpts/Enhancer/"
     parser = argparse.ArgumentParser(description="settings for training")
     parser.add_argument(
         "--yaml",
@@ -124,7 +124,7 @@ if __name__ == "__main__":
     cfg.update(vars(args))
 
     # ------------ set save dir ------------ #
-    save_dir = "./data/result/"
+    save_dir = "./data/result/Enhancer/"
 
     if not osp.exists(save_dir):
         os.makedirs(save_dir)

@@ -1,8 +1,8 @@
 AUG:
   patch_size: 128
 DATASET:
-  train_info_path: your train data
-  valid_info_path: your test data
+  train_info_path: your path
+  valid_info_path: your path
 LOSS: null
 MODEL:
   dec_blk_nums:
@@ -25,7 +25,7 @@ OPT:
   optimizer: adamW
   scheduler_type: CosineAnnealingLR
 SAVE:
-  save_basedir: your save dir
+  save_basedir: your path
   save_title: time
 batch_size: 64
 cuda_ids:

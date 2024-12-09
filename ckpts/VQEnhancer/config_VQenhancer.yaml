@@ -1,0 +1,38 @@
+AUG:
+  patch_size: 128
+DATASET:
+  train_info_path: your path
+  valid_info_path: your path
+LOSS: null
+MODEL:
+  beta: 0.25
+  dec_blk_nums:
+  - 2
+  - 2
+  - 2
+  dw_expand: 1
+  enc_blk_nums:
+  - 2
+  - 2
+  - 2
+  ffn_expand: 2
+  img_channel: 1
+  latent_dim: 256
+  mid_blk_num: 2
+  name: VQEnhancer
+  num_codebook_vectors: 1024
+  width: 32
+OPT:
+  end_lr: 1.0e-08
+  lr: 0.001
+  optimizer: adamW
+  scheduler_type: CosineAnnealingLR
+SAVE:
+  save_basedir: your path
+  save_title: time
+batch_size: 64
+cuda_ids:
+- 0
+- 1
+epochs: 1000
+yaml: config_VQenhancer
