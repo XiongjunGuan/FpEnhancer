@@ -26,7 +26,7 @@ The overall flowchart of our proposed algorithm is shown as follows.
 <br>
 
 We also explored the `VQVAE` form. Specifically, the codebook part is added between the original encoder and decoder, and the loss of quantization is additionally supervised.
-The codebook block comse from
+The codebook block comes from
 > Esser P, Rombach R, Ommer B. Taming transformers for high-resolution image synthesis[C]//Proceedings of the IEEE/CVF conference on computer vision and pattern recognition. 2021: 12873-12883.
 
 The overall flowchart of our new algorithm is shown as follows.
