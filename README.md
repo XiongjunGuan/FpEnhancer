@@ -4,7 +4,7 @@
  * @Date: 2024-12-09 15:39:59
  * @version: 0.0.1
  * @LastEditors: Xiongjun Guan
- * @LastEditTime: 2024-12-15 11:51:31
+ * @LastEditTime: 2024-12-15 11:53:08
  * 
  * Copyright (C) 2024 by Xiongjun Guan, Tsinghua University. All rights reserved.
 -->
@@ -37,7 +37,7 @@ The overall flowchart of our new algorithm is shown as follows.
 <br>
 
 
-We use abour `800` high-quality rolled fingerprints and binary image extracted by VeriFinger as dataset. During training, `128x128` image patches are randomly sampled from the original complete image. The image patches are then added with some random noise as augmentation. The methods and examples of augmentation can refer to 
+We use about `800` high-quality rolled fingerprints and binary image extracted by VeriFinger as dataset. During training, `128x128` image patches are randomly sampled from the original complete image. The image patches are then added with some random noise as augmentation. The methods and examples of augmentation can refer to 
 > Guan X, Pan Z, Feng J, et al. Joint Identity Verification and Pose Alignment for Partial Fingerprints[J]. arXiv preprint arXiv:2405.03959, 2024.
 
 Examples of image augmentation are shown as follows.
