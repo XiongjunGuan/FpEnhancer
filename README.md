@@ -72,31 +72,31 @@ Below are examples before and after fingerprint enhancement.
 
 - example 1
 <p align="center">
-    <img src="./images/ex1.png"/ width=90%> <br />
+    <img src="./images/ex-1.png"/ width=90%> <br />
 </p>
 <br>
 
 - example 2
 <p align="center">
-    <img src="./images/ex2.png"/ width=90%> <br />
+    <img src="./images/ex-2.png"/ width=90%> <br />
 </p>
 <br>
 
 - example 3
 <p align="center">
-    <img src="./images/ex3.png"/ width=90%> <br />
+    <img src="./images/ex-3.png"/ width=90%> <br />
 </p>
 <br>
 
 - example 4
 <p align="center">
-    <img src="./images/ex4.png"/ width=90%> <br />
+    <img src="./images/ex-4.png"/ width=90%> <br />
 </p>
 <br>
 
 - example 5
 <p align="center">
-    <img src="./images/ex5.png"/ width=90%> <br />
+    <img src="./images/ex-5.png"/ width=90%> <br />
 </p>
 <br>
 
