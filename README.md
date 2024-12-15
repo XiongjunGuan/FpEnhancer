@@ -4,7 +4,7 @@
  * @Date: 2024-12-09 15:39:59
  * @version: 0.0.1
  * @LastEditors: Xiongjun Guan
- * @LastEditTime: 2024-12-09 20:43:51
+ * @LastEditTime: 2024-12-15 11:51:31
  * 
  * Copyright (C) 2024 by Xiongjun Guan, Tsinghua University. All rights reserved.
 -->
@@ -68,7 +68,7 @@ Examples of image augmentation are shown as follows.
 
 ## Notice :exclamation:
 Due to the fact that we only add some simple modal noise during training, there are still challenges in difficult scenarios such as latent fingerprints, highly blurry/incomplete images or complex backgrounds.
-Below are three examples before and after fingerprint enhancement.
+Below are examples before and after fingerprint enhancement.
 
 - example 1
 <p align="center">
@@ -85,6 +85,18 @@ Below are three examples before and after fingerprint enhancement.
 - example 3
 <p align="center">
     <img src="./images/ex3.png"/ width=90%> <br />
+</p>
+<br>
+
+- example 4
+<p align="center">
+    <img src="./images/ex4.png"/ width=90%> <br />
+</p>
+<br>
+
+- example 5
+<p align="center">
+    <img src="./images/ex5.png"/ width=90%> <br />
 </p>
 <br>
 
