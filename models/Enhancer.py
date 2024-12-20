@@ -16,7 +16,140 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from .codebook import Codebook_clean
+from .codebook import Codebook_choose, Codebook_clean, Codebook_frosz
+
+
+class VQFormerEnhancer(nn.Module):
+
+    def __init__(self,
+                 img_channel=1,
+                 width=16,
+                 mid_blk_num=1,
+                 enc_blk_nums=[],
+                 dec_blk_nums=[],
+                 dw_expand=1,
+                 ffn_expand=2,
+                 num_codebook_vectors=1024,
+                 encoder_path=None,
+                 quant_conv_path=None,
+                 codebook_path=None,
+                 post_quant_conv_path=None,
+                 decoder_path=None,
+                 train=False):
+        super().__init__()
+
+        self.encoder = EnhancerEncoder(img_channel=img_channel,
+                                       width=width,
+                                       enc_blk_nums=enc_blk_nums,
+                                       dw_expand=dw_expand,
+                                       ffn_expand=ffn_expand)
+        if encoder_path is not None:
+            self.encoder.load_state_dict(torch.load(encoder_path))
+
+        latent_dim = width
+        self.latent_dim = latent_dim
+        for i in enc_blk_nums:
+            latent_dim *= 2
+
+        self.quant_conv = nn.Conv2d(latent_dim, latent_dim, 1)
+        if quant_conv_path is not None:
+            self.quant_conv.load_state_dict(torch.load(quant_conv_path))
+
+        self.codebook = Codebook_choose(
+            num_codebook_vectors=num_codebook_vectors,
+            latent_dim=latent_dim,
+            codebook_path=codebook_path,
+        )
+
+        if train is True:
+            self.encoder_frosz = EnhancerEncoder(img_channel=img_channel,
+                                                 width=width,
+                                                 enc_blk_nums=enc_blk_nums,
+                                                 dw_expand=dw_expand,
+                                                 ffn_expand=ffn_expand)
+            if encoder_path is not None:
+                self.encoder_frosz.load_state_dict(torch.load(encoder_path))
+
+            self.quant_conv_frosz = nn.Conv2d(latent_dim, latent_dim, 1)
+            if quant_conv_path is not None:
+                self.quant_conv_frosz.load_state_dict(
+                    torch.load(quant_conv_path))
+
+            self.codebook_frosz = Codebook_frosz(
+                num_codebook_vectors=num_codebook_vectors,
+                latent_dim=latent_dim,
+                codebook_path=codebook_path,
+            )
+
+            for param in self.encoder_frosz.parameters():
+                param.requires_grad = False
+            for param in self.quant_conv_frosz.parameters():
+                param.requires_grad = False
+            for param in self.codebook_frosz.parameters():
+                param.requires_grad = False
+
+        self.post_quant_conv = nn.Conv2d(latent_dim, latent_dim, 1)
+        self.decoder = EnhancerDecoder(img_channel=img_channel,
+                                       width=width,
+                                       middle_blk_num=mid_blk_num,
+                                       enc_blk_nums=enc_blk_nums,
+                                       dec_blk_nums=dec_blk_nums,
+                                       dw_expand=dw_expand,
+                                       ffn_expand=ffn_expand)
+
+        self.padder_size = 2**len(enc_blk_nums)
+
+        if post_quant_conv_path is not None:
+            self.post_quant_conv.load_state_dict(
+                torch.load(post_quant_conv_path))
+
+        if decoder_path is not None:
+            self.decoder.load_state_dict(torch.load(decoder_path))
+
+        for param in self.post_quant_conv.parameters():
+            param.requires_grad = False
+        for param in self.decoder.parameters():
+            param.requires_grad = False
+
+    def forward(self, inp, train_feat=False):
+        if train_feat is True:
+            B, C, H, W = inp.shape
+            inp = self.check_image_size(inp)
+
+            mid = self.encoder(inp)
+            mid = self.quant_conv(mid)
+
+            codebook_mapping, z_q, z, encoding_indices, probabilities = self.codebook(
+                mid)
+
+            mid_frosz = self.encoder_frosz(inp)
+            mid_frosz = self.quant_conv_frosz(mid_frosz)
+            tar_encoding_indices, tar_z_q = self.codebook_frosz(mid_frosz)
+
+            return probabilities, z, tar_encoding_indices, tar_z_q
+        else:
+            B, C, H, W = inp.shape
+            inp = self.check_image_size(inp)
+
+            mid = self.encoder(inp)
+            mid = self.quant_conv(mid)
+
+            codebook_mapping, z_q, z, encoding_indices, probabilities = self.codebook(
+                mid)
+
+            mid = self.post_quant_conv(codebook_mapping)
+            x = self.decoder(mid)
+
+            return x[:, :, :H, :W], z_q, z
+
+    def check_image_size(self, x):
+        _, _, h, w = x.size()
+        mod_pad_h = (self.padder_size -
+                     h % self.padder_size) % self.padder_size
+        mod_pad_w = (self.padder_size -
+                     w % self.padder_size) % self.padder_size
+        x = F.pad(x, (0, mod_pad_w, 0, mod_pad_h))
+        return x
 
 
 class VQEnhancer(nn.Module):

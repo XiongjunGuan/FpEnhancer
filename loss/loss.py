@@ -6,6 +6,29 @@ import torch.nn.functional as F
 eps = 1e-6
 
 
+class Stage2_CELoss(torch.nn.Module):
+
+    def __init__(self):
+        super(Stage2_CELoss, self).__init__()
+        self.ce_loss = nn.CrossEntropyLoss()
+
+    def forward(self, probabilities, tar_encoding_indices):
+        ce_loss = self.ce_loss(probabilities, tar_encoding_indices.detach())
+
+        return ce_loss
+
+
+class Stage2_CodeLoss(torch.nn.Module):
+
+    def __init__(self):
+        super(Stage2_CodeLoss, self).__init__()
+
+    def forward(self, z_q, tar_z_q):
+        loss = torch.mean((z_q - tar_z_q.detach())**2)
+
+        return loss
+
+
 class FinalLoss(torch.nn.Module):
 
     def __init__(self):

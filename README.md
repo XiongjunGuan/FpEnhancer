@@ -4,7 +4,7 @@
  * @Date: 2024-12-09 15:39:59
  * @version: 0.0.1
  * @LastEditors: Xiongjun Guan
- * @LastEditTime: 2024-12-15 11:53:08
+ * @LastEditTime: 2024-12-20 12:39:45
  * 
  * Copyright (C) 2024 by Xiongjun Guan, Tsinghua University. All rights reserved.
 -->
@@ -35,6 +35,17 @@ The overall flowchart of our new algorithm is shown as follows.
     <img src="./images/flowchart_VQVAE.png"/ width=90%> <br />
 </p>
 <br>
+
+In addition, we also tried the form of `CodeFormer`. On the basis of the original `VAVAE`, a transformer is added to select the serial number of codebook. We use `VQFormer` to refer to it in the following text.
+> Zhou S, Chan K, Li C, et al. Towards robust blind face restoration with codebook lookup transformer[J]. Advances in Neural Information Processing Systems, 2022, 35: 30599-30611.
+
+The overall flowchart of our new algorithm is shown as follows.
+<br>
+<p align="center">
+    <img src="./images/flowchart_VQFormer.png"/ width=90%> <br />
+</p>
+<br>
+
 
 
 We use about `800` high-quality rolled fingerprints and binary image extracted by VeriFinger as dataset. During training, `128x128` image patches are randomly sampled from the original complete image. The image patches are then added with some random noise as augmentation. The methods and examples of augmentation can refer to 
@@ -97,6 +108,18 @@ Below are examples before and after fingerprint enhancement.
 - example 5
 <p align="center">
     <img src="./images/ex-5.png"/ width=90%> <br />
+</p>
+<br>
+
+- example 6
+<p align="center">
+    <img src="./images/ex-6.png"/ width=90%> <br />
+</p>
+<br>
+
+- example 7
+<p align="center">
+    <img src="./images/ex-7.png"/ width=90%> <br />
 </p>
 <br>
 

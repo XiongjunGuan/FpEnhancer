@@ -1,0 +1,43 @@
+AUG:
+  patch_size: 128
+DATASET:
+  train_info_path: your path
+  valid_info_path:your path
+LOSS: null
+MODEL:
+  beta: 0.25
+  codebook_path: ./ckpts/VQFormerEnhancer/codebook.pth
+  dec_blk_nums:
+  - 2
+  - 2
+  - 2
+  decoder_path: ./ckpts/VQFormerEnhancer/decoder.pth
+  dw_expand: 1
+  enc_blk_nums:
+  - 2
+  - 2
+  - 2
+  encoder_path: ./ckpts/VQFormerEnhancer/encoder.pth
+  ffn_expand: 2
+  img_channel: 1
+  latent_dim: 256
+  mid_blk_num: 2
+  name: VQFormerEnhancer
+  num_codebook_vectors: 1024
+  post_quant_conv_path: ./ckpts/VQFormerEnhancer/post_quant_conv.pth
+  quant_conv_path: ./ckpts/VQFormerEnhancer/quant_conv.pth
+  width: 32
+OPT:
+  end_lr: 1.0e-08
+  lr: 0.001
+  optimizer: adamW
+  scheduler_type: CosineAnnealingLR
+SAVE:
+  save_basedir: your path
+  save_title: time
+batch_size: 64
+cuda_ids:
+- 0
+- 7
+epochs: 1000
+yaml: config_VQFormerenhancer

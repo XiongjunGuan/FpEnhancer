@@ -1,0 +1,47 @@
+# train settings
+cuda_ids: [1,2]
+epochs: 1000
+batch_size: 64
+
+# optimization settings
+OPT:
+  lr: 1.0e-3
+  end_lr: 1.0e-8
+
+  # lr iteration
+  scheduler_type: CosineAnnealingLR
+  optimizer: adamW
+
+AUG:
+  patch_size: 128
+
+# traning database
+DATASET:
+  train_info_path: your path
+  valid_info_path: your path
+# save settings
+SAVE:
+  save_basedir: your path
+  save_title: time # time / test
+
+# model settings
+MODEL:
+  name: VQFormerEnhancer
+  img_channel: 1
+  width: 32
+  enc_blk_nums: [2, 2, 2]
+  mid_blk_num: 2
+  dec_blk_nums: [2, 2, 2]
+  dw_expand: 1
+  ffn_expand: 2
+  latent_dim: 256
+  num_codebook_vectors: 1024
+  beta: 0.25
+  encoder_path:  
+  quant_conv_path: ./ckpts/VQFormerEnhancer/quant_conv.pth
+  codebook_path: ./ckpts/VQFormerEnhancer/codebook.pth
+  post_quant_conv_path: ./ckpts/VQFormerEnhancer/post_quant_conv.pth
+  decoder_path: ./ckpts/VQFormerEnhancer/decoder.pth
+
+# loss settings
+LOSS:
