@@ -4,7 +4,7 @@
  * @Date: 2024-12-09 15:39:59
  * @version: 0.0.1
  * @LastEditors: Xiongjun Guan
- * @LastEditTime: 2024-12-20 12:39:45
+ * @LastEditTime: 2025-01-02 10:59:52
  * 
  * Copyright (C) 2024 by Xiongjun Guan, Tsinghua University. All rights reserved.
 -->
@@ -68,6 +68,11 @@ Examples of image augmentation are shown as follows.
     python train_VQenhancer.py
     ```
 
+* **train VQFormer**
+    ```shell
+    python train_VQFormerEnhancer.py
+    ```
+
 * **test Unet**
     ```shell
     python inference_enhancer.py
@@ -75,6 +80,10 @@ Examples of image augmentation are shown as follows.
 * **test VQVAE**
     ```shell
     python inference_VQenhancer.py
+    ```
+* **test VQFormer**
+    ```shell
+    python test_VQFormerEnhancer.py
     ```
 
 ## Notice :exclamation:
