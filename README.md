@@ -11,6 +11,8 @@
 # FpEnhancer
 This is a simple baseline for fingerprint enhancement.
 
+We use the enhancer model of this repository‌ in [Joint Identity Verification and Pose Alignment for Partial Fingerprints](https://arxiv.org/abs/2405.03959) 
+
 ## Introduction
 This is a `UNet` structured network for fingerprint enhancement. Input a fingerprint image, and the network will output the enhancement result in binary image format. Because a fully convolutional structure is used, there is no requirement for input size.
 
