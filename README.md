@@ -132,6 +132,21 @@ Below are examples before and after fingerprint enhancement.
 </p>
 <br>
 
+## Citation
+If you find this repository useful, please give us stars and use the following BibTeX entry for citation.
+```
+@ARTICLE{guan2024joint,
+  author={Guan, Xiongjun and Pan, Zhiyu and Feng, Jianjiang and Zhou, Jie},
+  journal={IEEE Transactions on Information Forensics and Security}, 
+  title={Joint Identity Verification and Pose Alignment for Partial Fingerprints}, 
+  year={2025},
+  volume={20},
+  number={},
+  pages={249-263},
+  keywords={Fingerprint recognition;Feature extraction;Pose estimation;Correlation;Fingers;Authentication;Transformers;Skin;Sensors;Prediction algorithms;Fingerprint recognition;partial fingerprint;fingerprint verification;fingerprint pose estimation;transformer},
+  doi={10.1109/TIFS.2024.3516566}}
+```
+
 ## License
 This project is released under the MIT license. Please see the LICENSE file for more information.
 
