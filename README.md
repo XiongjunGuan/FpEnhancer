@@ -38,7 +38,7 @@ The overall flowchart of our new algorithm is shown as follows.
 </p>
 <br>
 
-In addition, we also tried the form of `CodeFormer`. On the basis of the original `VAVAE`, a transformer is added to select the serial number of codebook. We use `VQFormer` to refer to it in the following text.
+In addition, we also tried the form of `CodeFormer`. On the basis of the original `VQVAE`, a transformer is added to select the serial number of codebook. We use `VQFormer` to refer to it in the following text.
 > Zhou S, Chan K, Li C, et al. Towards robust blind face restoration with codebook lookup transformer[J]. Advances in Neural Information Processing Systems, 2022, 35: 30599-30611.
 
 The overall flowchart of our new algorithm is shown as follows.
