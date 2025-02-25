@@ -29,7 +29,7 @@ The overall flowchart of our proposed algorithm is shown as follows.
 
 We also explored the `VQVAE` form. Specifically, the codebook part is added between the original encoder and decoder, and the loss of quantization is additionally supervised.
 The codebook block comes from
-> Esser P, Rombach R, Ommer B. Taming transformers for high-resolution image synthesis[C]//Proceedings of the IEEE/CVF conference on computer vision and pattern recognition. 2021: 12873-12883.
+> Van Den Oord A, Vinyals O. Neural discrete representation learning[J]. Advances in neural information processing systems, 2017, 30.
 
 The overall flowchart of our new algorithm is shown as follows.
 <br>
@@ -39,6 +39,8 @@ The overall flowchart of our new algorithm is shown as follows.
 <br>
 
 In addition, we also tried the form of `CodeFormer`. On the basis of the original `VQVAE`, a transformer is added to select the serial number of codebook. We use `VQFormer` to refer to it in the following text.
+> Esser P, Rombach R, Ommer B. Taming transformers for high-resolution image synthesis[C]//Proceedings of the IEEE/CVF conference on computer vision and pattern recognition. 2021: 12873-12883.
+> 
 > Zhou S, Chan K, Li C, et al. Towards robust blind face restoration with codebook lookup transformer[J]. Advances in Neural Information Processing Systems, 2022, 35: 30599-30611.
 
 The overall flowchart of our new algorithm is shown as follows.
@@ -51,7 +53,7 @@ The overall flowchart of our new algorithm is shown as follows.
 
 
 We use about `800` high-quality rolled fingerprints and binary image extracted by VeriFinger as dataset. During training, `128x128` image patches are randomly sampled from the original complete image. The image patches are then added with some random noise as augmentation. The methods and examples of augmentation can refer to 
-> Guan X, Pan Z, Feng J, et al. Joint Identity Verification and Pose Alignment for Partial Fingerprints[J]. arXiv preprint arXiv:2405.03959, 2024.
+> X. Guan, Z. Pan, J. Feng and J. Zhou, "Joint Identity Verification and Pose Alignment for Partial Fingerprints," in IEEE Transactions on Information Forensics and Security, vol. 20, pp. 249-263, 2025.
 
 Examples of image augmentation are shown as follows.
 <br>
